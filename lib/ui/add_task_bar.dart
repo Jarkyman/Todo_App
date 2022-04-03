@@ -55,150 +55,150 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return Scaffold(
       backgroundColor: context.theme.backgroundColor,
       appBar: _appBar(context),
-      body: Container(
-        padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Add Tasks',
-                style: headingStyle,
-              ),
-              MyInputField(
-                title: 'Title',
-                hint: 'Enter your title',
-                controller: _titleController,
-              ),
-              MyInputField(
-                title: 'Note',
-                hint: 'Enter your note',
-                controller: _noteController,
-              ),
-              MyInputField(
-                title: 'Date',
-                hint: DateFormat.yMd().format(_selectedDate),
-                widget: IconButton(
-                  onPressed: () {
-                    _getDateFromUser();
-                  },
-                  icon: const Icon(
-                    Icons.calendar_today_outlined,
-                    color: Colors.grey,
-                  ),
+      body: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Add Tasks',
+                  style: headingStyle,
                 ),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: MyInputField(
-                      title: 'Start Time',
-                      hint: _startTime,
-                      widget: IconButton(
-                        onPressed: () {
-                          _getTimeFromUser(isStartTime: true);
-                        },
-                        icon: Icon(Icons.access_time_rounded),
-                        color: Colors.grey,
-                      ),
+                MyInputField(
+                  title: 'Title',
+                  hint: 'Enter your title',
+                  controller: _titleController,
+                ),
+                MyInputField(
+                  title: 'Note',
+                  hint: 'Enter your note',
+                  controller: _noteController,
+                ),
+                MyInputField(
+                  title: 'Date',
+                  hint: DateFormat.yMd().format(_selectedDate),
+                  widget: IconButton(
+                    onPressed: () {
+                      _getDateFromUser();
+                    },
+                    icon: const Icon(
+                      Icons.calendar_today_outlined,
+                      color: Colors.grey,
                     ),
                   ),
-                  SizedBox(
-                    width: 12.0,
-                  ),
-                  Expanded(
-                    child: MyInputField(
-                      title: 'End Time',
-                      hint: _endTime,
-                      widget: IconButton(
-                        onPressed: () {
-                          _getTimeFromUser(isStartTime: false);
-                        },
-                        icon: Icon(Icons.access_time_rounded),
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              MyInputField(
-                title: 'Remind',
-                hint: '$_selectedRemind minutes early',
-                widget: DropdownButton(
-                  icon: Icon(
-                    Icons.keyboard_arrow_down,
-                    color: Colors.grey,
-                  ),
-                  iconSize: 32.0,
-                  elevation: 4,
-                  style: subTitleStyle,
-                  underline: Container(
-                    height: 0,
-                  ),
-                  onChanged: (String? value) {
-                    setState(() {
-                      _selectedRemind = int.parse(value!);
-                    });
-                  },
-                  items: remindList.map<DropdownMenuItem<String>>((int value) {
-                    return DropdownMenuItem<String>(
-                      value: value.toString(),
-                      child: Text(
-                        value.toString(),
-                      ),
-                    );
-                  }).toList(),
                 ),
-              ),
-              MyInputField(
-                title: 'Repeat',
-                hint: '$_selectedRepeat',
-                widget: DropdownButton(
-                  icon: Icon(
-                    Icons.keyboard_arrow_down,
-                    color: Colors.grey,
-                  ),
-                  iconSize: 32.0,
-                  elevation: 4,
-                  style: subTitleStyle,
-                  underline: Container(
-                    height: 0,
-                  ),
-                  onChanged: (String? value) {
-                    setState(() {
-                      _selectedRepeat = value!;
-                    });
-                  },
-                  items:
-                      repeatList.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                        style: TextStyle(
+                Row(
+                  children: [
+                    Expanded(
+                      child: MyInputField(
+                        title: 'Start Time',
+                        hint: _startTime,
+                        widget: IconButton(
+                          onPressed: () {
+                            _getTimeFromUser(isStartTime: true);
+                          },
+                          icon: Icon(Icons.access_time_rounded),
                           color: Colors.grey,
                         ),
                       ),
-                    );
-                  }).toList(),
+                    ),
+                    SizedBox(
+                      width: 12.0,
+                    ),
+                    Expanded(
+                      child: MyInputField(
+                        title: 'End Time',
+                        hint: _endTime,
+                        widget: IconButton(
+                          onPressed: () {
+                            _getTimeFromUser(isStartTime: false);
+                          },
+                          icon: Icon(Icons.access_time_rounded),
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              _colorPallet(),
-              SizedBox(
-                height: 18.0,
-              ),
-              Center(
-                child: MyButton(
-                  label: 'Create Task',
-                  onTap: () {
-                    _validateData();
-                  },
+                MyInputField(
+                  title: 'Remind',
+                  hint: '$_selectedRemind minutes early',
+                  widget: DropdownButton(
+                    icon: Icon(
+                      Icons.keyboard_arrow_down,
+                      color: Colors.grey,
+                    ),
+                    iconSize: 32.0,
+                    elevation: 4,
+                    style: subTitleStyle,
+                    underline: Container(
+                      height: 0,
+                    ),
+                    onChanged: (String? value) {
+                      setState(() {
+                        _selectedRemind = int.parse(value!);
+                      });
+                    },
+                    items:
+                        remindList.map<DropdownMenuItem<String>>((int value) {
+                      return DropdownMenuItem<String>(
+                        value: value.toString(),
+                        child: Text(
+                          value.toString(),
+                        ),
+                      );
+                    }).toList(),
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 15.0,
-              ),
-            ],
+                MyInputField(
+                  title: 'Repeat',
+                  hint: '$_selectedRepeat',
+                  widget: DropdownButton(
+                    icon: Icon(
+                      Icons.keyboard_arrow_down,
+                      color: Colors.grey,
+                    ),
+                    iconSize: 32.0,
+                    elevation: 4,
+                    style: subTitleStyle,
+                    underline: Container(
+                      height: 0,
+                    ),
+                    onChanged: (String? value) {
+                      setState(() {
+                        _selectedRepeat = value!;
+                      });
+                    },
+                    items: repeatList
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: TextStyle(
+                            color: Colors.grey,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                _colorPallet(),
+                SizedBox(
+                  height: 18.0,
+                ),
+                Center(
+                  child: MyButton(
+                    label: 'Create Task',
+                    onTap: () {
+                      _validateData();
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -294,8 +294,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return List<Widget>.generate(
       length,
       (index) {
-        print('$index ud af ${length}');
-        //print(_colors.length);
         return index > length
             ? _addColorWidget() //TODO: Virker ikke...
             : GestureDetector(
@@ -403,20 +401,37 @@ class _AddTaskPageState extends State<AddTaskPage> {
   }
 
   _showTimePicker({required bool isStartTime}) {
+    bool isAm = _startTime.split(' ')[1] == 'AM';
+    int endTimeStrat = int.parse(_startTime.split(':')[0]) + _defaultTimeDif;
+
     return showTimePicker(
-      initialEntryMode: TimePickerEntryMode.input,
+      initialEntryMode: TimePickerEntryMode.dial,
       context: context,
       initialTime: TimeOfDay(
         hour: isStartTime
-            ? int.parse(_startTime.split(':')[0])
+            ? isAm
+                ? int.parse(_startTime.split(':')[0])
+                : int.parse(_startTime.split(':')[0]) + 12
             : _isEndTimeEdit
-                ? int.parse(_endTime.split(':')[0])
-                : int.parse(_startTime.split(':')[0]) + _defaultTimeDif,
+                ? isAm
+                    ? int.parse(_endTime.split(':')[0])
+                    : int.parse(_endTime.split(':')[0]) + 12
+                : isAm
+                    ? endTimeStrat
+                    : endTimeStrat > 12
+                        ? 12
+                        : endTimeStrat + 12,
         minute: isStartTime
-            ? int.parse(_startTime.split(':')[1].split(' ')[0])
+            ? endTimeStrat >= 12
+                ? 00
+                : int.parse(_startTime.split(':')[1].split(' ')[0])
             : _isEndTimeEdit
-                ? int.parse(_endTime.split(':')[1].split(' ')[0])
-                : int.parse(_startTime.split(':')[1].split(' ')[0]),
+                ? endTimeStrat >= 12
+                    ? 00
+                    : int.parse(_endTime.split(':')[1].split(' ')[0])
+                : endTimeStrat >= 12
+                    ? 00
+                    : int.parse(_startTime.split(':')[1].split(' ')[0]),
       ),
     );
   }
