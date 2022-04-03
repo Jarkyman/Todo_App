@@ -63,56 +63,44 @@ class _HomePageState extends State<HomePage> {
           itemCount: _taskController.taskList.length,
           itemBuilder: (_, index) {
             Task task = _taskController.taskList[index];
+            DateTime date = DateFormat.jm().parse(task.startTime.toString());
+            var myTime = DateFormat('HH:mm').format(date);
+            notifyHelper.scheduledNotification(
+              int.parse(myTime.toString().split(':')[0]),
+              int.parse(myTime.toString().split(':')[1]),
+              task,
+            );
             if (task.repeat == 'Daily') {
-              DateTime date = DateFormat.jm().parse(task.startTime.toString());
-              var myTime = DateFormat('HH:mm').format(date);
-              notifyHelper.scheduledNotification(
-                int.parse(myTime.toString().split(':')[0]),
-                int.parse(myTime.toString().split(':')[1]),
-                task,
-              );
-              return AnimationConfiguration.staggeredList(
-                position: index,
-                child: SlideAnimation(
-                  child: FadeInAnimation(
-                    child: Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            _showBottomSheet(context, task);
-                          },
-                          child: TaskTile(task),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
+              return _taskCard(index, task);
             }
             if (task.date == DateFormat.yMd().format(_selectedDate)) {
-              return AnimationConfiguration.staggeredList(
-                position: index,
-                child: SlideAnimation(
-                  child: FadeInAnimation(
-                    child: Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            _showBottomSheet(context, task);
-                          },
-                          child: TaskTile(task),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
+              return _taskCard(index, task);
             } else {
               return Container();
             }
           },
         );
       }),
+    );
+  }
+
+  AnimationConfiguration _taskCard(int index, Task task) {
+    return AnimationConfiguration.staggeredList(
+      position: index,
+      child: SlideAnimation(
+        child: FadeInAnimation(
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  _showBottomSheet(context, task);
+                },
+                child: TaskTile(task),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 

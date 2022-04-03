@@ -49,5 +49,4 @@ class Task {
     data['repeat'] = this.repeat;
     return data;
   }
-
 }

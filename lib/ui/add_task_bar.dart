@@ -23,7 +23,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       .format(DateTime.now().add(new Duration(hours: 2)))
       .toString();
   bool _isEndTimeEdit = false;
-  int _defaultTimeDif = 2;
+  final int _defaultTimeDif = 2;
   String _startTime = DateFormat('hh:mm a').format(DateTime.now()).toString();
   int _selectedRemind = 5;
   List<int> remindList = [
@@ -40,7 +40,15 @@ class _AddTaskPageState extends State<AddTaskPage> {
     'Weekly',
     'Monthly',
   ];
-  int _selectedColor = 0;
+  final List<int> _colors = [
+    primaryClr.value,
+    yellowClr.value,
+    pinkClr.value,
+    greenClr.value,
+    blueClr.value,
+    orangeClr.value,
+  ];
+  int _selectedColor = primaryClr.value;
 
   @override
   Widget build(BuildContext context) {
@@ -175,21 +183,20 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   }).toList(),
                 ),
               ),
+              _colorPallet(),
               SizedBox(
                 height: 18.0,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  _colorPallet(),
-                  MyButton(
-                    label: 'Create Task',
-                    onTap: () {
-                      _validateData();
-                    },
-                  ),
-                ],
+              Center(
+                child: MyButton(
+                  label: 'Create Task',
+                  onTap: () {
+                    _validateData();
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 15.0,
               ),
             ],
           ),
@@ -235,49 +242,100 @@ class _AddTaskPageState extends State<AddTaskPage> {
   }
 
   _colorPallet() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Color',
-          style: titleStyle,
-        ),
-        SizedBox(
-          height: 8.0,
-        ),
-        Wrap(
-          children: List<Widget>.generate(
-            3,
-            (index) {
-              return GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _selectedColor = index;
-                  });
-                },
+    return Container(
+      margin: const EdgeInsets.only(top: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Color',
+            style: titleStyle,
+          ),
+          SizedBox(
+            height: 8.0,
+          ),
+          Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Container(
+                  child: Wrap(
+                    spacing: 8.0,
+                    runSpacing: 8.0,
+                    children: _colorList(),
+                  ),
+                ),
+              ),
+              /*GestureDetector(
+                onTap:
+                    () {}, //TODO: Add color add to list (Maby some database save to remember color)
                 child: Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: CircleAvatar(
-                    radius: 14.0,
-                    backgroundColor: index == 0
-                        ? primaryClr
-                        : index == 1
-                            ? pinkClr
-                            : yellowClr,
-                    child: _selectedColor == index
-                        ? Icon(
-                            Icons.done,
-                            color: Colors.white,
-                            size: 16.0,
-                          )
-                        : Container(),
-                  ),
+                      radius: 14.0,
+                      backgroundColor:
+                          Get.isDarkMode ? Colors.grey[600] : Colors.grey[600],
+                      child: Icon(
+                        Icons.add,
+                        color: Colors.white,
+                        size: 16.0,
+                      )),
+                ),
+              ),*/
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  _colorList() {
+    int length = _colors.length;
+    return List<Widget>.generate(
+      length,
+      (index) {
+        print('$index ud af ${length}');
+        //print(_colors.length);
+        return index > length
+            ? _addColorWidget() //TODO: Virker ikke...
+            : GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _selectedColor = _colors[index];
+                  });
+                },
+                child: CircleAvatar(
+                  radius: 14.0,
+                  backgroundColor: Color(_colors[index]),
+                  child: _selectedColor == _colors[index]
+                      ? Icon(
+                          Icons.done,
+                          color: Colors.white,
+                          size: 16.0,
+                        )
+                      : Container(),
                 ),
               );
-            },
-          ),
-        ),
-      ],
+      },
+    );
+  }
+
+  _addColorWidget() {
+    return GestureDetector(
+      onTap:
+          () {}, //TODO: Add color add to list (Maby some database save to remember color)
+      child: Padding(
+        padding: const EdgeInsets.only(right: 8.0),
+        child: CircleAvatar(
+            radius: 14.0,
+            backgroundColor:
+                Get.isDarkMode ? Colors.grey[600] : Colors.grey[600],
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+              size: 16.0,
+            )),
+      ),
     );
   }
 

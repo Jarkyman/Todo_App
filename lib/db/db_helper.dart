@@ -42,13 +42,10 @@ class DBHelper {
   }
 
   static updateComplete(int id) async {
-    return await _db!.rawUpdate(
-      '''
+    return await _db!.rawUpdate('''
       UPDATE $_tableName
       SET isCompleted = ?
       WHERE id = ?
-      ''', [1, id]
-    );
+      ''', [1, id]);
   }
-
 }
